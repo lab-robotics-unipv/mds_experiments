@@ -34,9 +34,9 @@ e_vals, e_vecs = map(np.array, zip(*sorted(zip(e_vals, e_vecs.T), key=operator.i
 
 # configuration X of n points/coordinates that optimise the cost function
 coords = e_vecs.T.dot((np.eye(M)*e_vals)**0.5)
+print(coords)
 
-
-# recompute euclidean distances
+# compute euclidean distances
 similairities = euclidean_distances(coords)
 print(similairities)
 
