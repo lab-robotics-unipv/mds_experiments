@@ -11,13 +11,14 @@ from sklearn.metrics import euclidean_distances
 # number of dimensions of output
 M = 2 
 
-#       5m
-#  ................
-#   .           .
-#    .        .
-# 3m  .     .  4m
-#      .  .
-#       .
+#         3m
+#    -------------
+#    |          /
+#    |        /
+# 4m |      /  5m
+#    |    /
+#    |  /
+#    |/
 
 
 # Set up the proximity and squared proximity matrices
