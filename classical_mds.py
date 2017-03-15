@@ -44,4 +44,4 @@ similairities = euclidean_distances(coords)
 print(similairities)
 
 # Compare the new proximity matrix with the original
-np.testing.assert_allclose(similairities, prox_arr)
+np.testing.assert_allclose(similairities, prox_arr, 0.0001)
