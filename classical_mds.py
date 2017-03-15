@@ -4,11 +4,12 @@ import operator
 import numpy as np
 from sklearn.metrics import euclidean_distances
 
-#
+#==========================================================================================================
 # classical multidimensional scaling as described in https://en.wikipedia.org/wiki/Multidimensional_scaling
-#
+#==========================================================================================================
 
-M = 2 # number of dimensions of output
+# number of dimensions of output
+M = 2 
 
 #       5m
 #  ................
@@ -41,4 +42,5 @@ print(coords)
 similairities = euclidean_distances(coords)
 print(similairities)
 
+# compare the new distance matrix with the original
 np.testing.assert_allclose(similairities, prox_arr)
