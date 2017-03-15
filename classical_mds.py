@@ -10,17 +10,17 @@ from sklearn.metrics import euclidean_distances
 
 M = 2 # number of dimensions of output
 
-#       3m
+#       5m
 #  ................
 #   .           .
 #    .        .
-# 1m  .     .  2m
+# 3m  .     .  4m
 #      .  .
 #       .
 
 
 # Set up the squared proximity matrix
-prox_arr = np.array([[0, 3, 1], [3, 0, 2], [1, 2, 0]])
+prox_arr = np.array([[0, 5, 3], [5, 0, 4], [3, 4, 0]])
 sqrd_prox_arr = prox_arr**2
 
 # Apply double centering
