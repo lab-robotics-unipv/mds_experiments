@@ -29,11 +29,12 @@ cent_arr = np.eye(sz) - np.ones(sz)/sz
 B = -cent_arr.dot(sqrd_prox_arr).dot(cent_arr)/2
 
 # Determine the m largest eigenvalues and corresponding eigenvectors
-e_vals, e_vecs = np.linalg.eig(B)
-e_vals, e_vecs = map(np.array, zip(*sorted(zip(e_vals, e_vecs.T), key=operator.itemgetter(0), reverse=True)[:M]))
+eig_vals, eig_vecs = np.linalg.eig(B)
+eig_vals_vecs = zip(*sorted(zip(eig_vals, eig_vecs.T), key=operator.itemgetter(0), reverse=True)[:M])
+eig_vals, eig_vecs = map(np.array, eig_vals_vecs)
 
 # configuration X of n points/coordinates that optimise the cost function
-coords = e_vecs.T.dot((np.eye(M)*e_vals)**0.5)
+coords = eig_vecs.T.dot((np.eye(M)*eig_vals)**0.5)
 print(coords)
 
 # compute euclidean distances
