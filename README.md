@@ -1,2 +1,2 @@
 # mds_examples
-Python script(s) for MDS algorithm 
+Python script(s) for various MDS algorithms and experiments
