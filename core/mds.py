@@ -19,10 +19,6 @@ from sklearn.externals.joblib import Parallel
 from sklearn.externals.joblib import delayed
 from sklearn.isotonic import IsotonicRegression
 
-from collections import deque
-
-import mds_RFID
-
 
 def _smacof_with_anchors_single(config, similarities, metric=True, n_components=2, init=None,
 				   max_iter=300, verbose=0, eps=1e-3, random_state=None):
@@ -60,8 +56,7 @@ def _smacof_with_anchors_single(config, similarities, metric=True, n_components=
 	n_iter : int
 		Number of iterations run.
 	"""
-	NO_OF_TAGS, NO_OF_ANCHORS = config.NO_OF_TAGS, config.NO_OF_ANCHORS
-	ANCHORS =  config.ANCHORS
+	NO_OF_TAGS, NO_OF_ANCHORS = config.no_of_tags, config.no_of_anchors
 	similarities = check_symmetric(similarities, raise_exception=True)
 
 	n_samples = similarities.shape[0]
@@ -70,7 +65,6 @@ def _smacof_with_anchors_single(config, similarities, metric=True, n_components=
 	sim_flat = ((1 - np.tri(n_samples)) * similarities).ravel()
 	sim_flat_w = sim_flat[sim_flat != 0]
 
-	Xa = config.ANCHORS
 	if init is None:
 		# Randomly choose initial configuration
 		X = random_state.rand(n_samples * n_components)
@@ -90,13 +84,14 @@ def _smacof_with_anchors_single(config, similarities, metric=True, n_components=
 
 	# setup weight matrix
 	weights = np.ones((n_samples, n_samples))
-	if getattr(config, 'MISSINGDATA') is not None:
+	if getattr(config, 'missingdata', None):
 		weights[-NO_OF_TAGS:, -NO_OF_TAGS:] = 0
 
 	diag = np.arange(n_samples)
 	weights[diag, diag] = 0
 
 	last_n_configs = []
+	Xa = config.anchors
 	for it in range(max_iter):
 		# Compute distance and monotonic regression
 		dis = euclidean_distances(X)
@@ -136,10 +131,8 @@ def _smacof_with_anchors_single(config, similarities, metric=True, n_components=
 		B11 = B[-NO_OF_TAGS:, -NO_OF_TAGS:]
 		Zu = X[-NO_OF_TAGS:]
 		B12 = B[-NO_OF_TAGS:, :-NO_OF_TAGS]
-		#print(B11)
-		Za = Xa
 		V11_inv = np.linalg.inv(V[-NO_OF_TAGS:, -NO_OF_TAGS:]) 
-		Xu = V11_inv.dot(B11.dot(Zu) + (B12 - V12).dot(Xa)) #/NO_OF_ANCHORS
+		Xu = V11_inv.dot(B11.dot(Zu) + (B12 - V12).dot(Xa)) 
 
 		# merge known anchors config with new tags config 
 		X = np.concatenate((Xa, Xu))
@@ -197,7 +190,7 @@ def _smacof_single(config, similarities, metric=True, n_components=2, init=None,
 	n_iter : int
 		Number of iterations run.
 	"""
-	NO_OF_TAGS, NO_OF_ANCHORS = config.NO_OF_TAGS, config.NO_OF_ANCHORS
+	NO_OF_TAGS, NO_OF_ANCHORS = config.no_of_tags, config.no_of_anchors
 	similarities = check_symmetric(similarities, raise_exception=True)
 
 	n_samples = similarities.shape[0]
@@ -287,7 +280,7 @@ def _smacof_single(config, similarities, metric=True, n_components=2, init=None,
 
 
 def _smacof_with_distance_recovery_single(config, similarities, *args, **kwargs):
-	mds_RFID.recover_tag_distances(config, similarities)
+	recover_tag_distances(config, similarities)
 	return _smacof_single(config, similarities, estimated_dist_weights=0.7, *args, **kwargs)
 
 
@@ -307,6 +300,15 @@ def _classical_mds_with_distance_recovery_single(config, prox_arr, *args, **kwar
 	# configuration X of n points/coordinates that optimise the cost function
 	coords = eig_vecs.T.dot((np.eye(M)*eig_vals)**0.5)
 	return coords, 0, 0, np.array([])
+
+
+def recover_tag_distances(config, prox_arr):
+	NO_OF_TAGS, NO_OF_ANCHORS = config.no_of_tags, config.no_of_anchors
+	for j in range(NO_OF_ANCHORS, NO_OF_TAGS+NO_OF_ANCHORS):
+		for i in range(j, NO_OF_TAGS+NO_OF_ANCHORS):
+			if i == j:
+				continue
+			prox_arr[i, j] = prox_arr[j, i] = np.mean(np.absolute([prox_arr[i,a]-prox_arr[j,a] for a in range(NO_OF_ANCHORS)]))
 
 
 VARIANTS = {'_smacof_with_anchors_single': _smacof_with_anchors_single, 
