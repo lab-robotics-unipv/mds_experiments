@@ -1,16 +1,25 @@
+from matplotlib import pyplot as plt
+from matplotlib import animation
 
+from core.config import Config
+from utils import generate_dynamic_nodes
+
+# number of mobile node transitions
+NO_TRANS = 100
 
 class NodeAnimation(object):
 
-	def __init__(self, data, show_trail=False):
+	def __init__(self, cfg, data, show_trail=False):
 		self.fig = plt.figure()
 		self.data = data
 		self.show_trail = show_trail
+		self.no_of_anchors = cfg.no_of_anchors
+		self.no_of_tags = cfg.no_of_tags
 
 	def init_plot(self):
 		real_coords, mds_coords, *others = next(self.data)
-		self.anchors_scat = plt.scatter(real_coords[:NO_OF_ANCHORS, 0], real_coords[:NO_OF_ANCHORS, 1], color='blue', s=100, lw=1, label='Anchors positions', marker='o')
-		self.real_scat = plt.scatter(real_coords[NO_OF_ANCHORS:, 0], real_coords[NO_OF_ANCHORS:, 1], color='blue', s=100, lw=1, label='Tag positions', marker='o', facecolors='none')
+		self.anchors_scat = plt.scatter(real_coords[:self.no_of_anchors, 0], real_coords[:self.no_of_anchors, 1], color='blue', s=100, lw=1, label='Anchors positions', marker='o')
+		self.real_scat = plt.scatter(real_coords[self.no_of_anchors:, 0], real_coords[self.no_of_anchors:, 1], color='blue', s=100, lw=1, label='Tag positions', marker='o', facecolors='none')
 		self.mds_scat = plt.scatter(mds_coords[:, 0], mds_coords[:, 1], color='red', s=150, lw=2, label='Estimated positions', marker='+')
 		scatterplots = self.real_scat, self.mds_scat
 		if self.show_trail:
@@ -49,15 +58,9 @@ class NodeAnimation(object):
 
 
 
-
-
 if __name__ == '__main__':
-	anc = 4
-	config.NO_OF_ANCHORS = anc
-	config.NO_OF_TAGS = 7
-	config.ANCHORS = config.ANCHORS_[:anc]
-	# config.MISSINGDATA = 'None'
-	# noise = dict(mu=0, sigma=1)
-	# for_plotting, for_evaluation = tee(generate_data(config, anc, '_smacof_with_anchors_single', add_noise=noise, filter_noise=False))
-	# anim = NodeAnimation(for_plotting,show_trail=False)
-	# anim.draw_plot()
+	cfg = Config(no_of_anchors=4, no_of_tags=7, missingdata=True)
+	noise = dict(mu=0, sigma=1)
+	data = generate_dynamic_nodes(cfg, algorithm='_smacof_with_distance_recovery_single', no_of_trans=NO_TRANS, add_noise=noise, filter_noise=False)
+	anim = NodeAnimation(cfg, data, show_trail=False)
+	anim.draw_plot()
