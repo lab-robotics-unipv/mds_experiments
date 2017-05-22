@@ -3,8 +3,9 @@ import numpy as np
 # number of dimensions of configuration 
 M = 2 
 
-# number of mobile node transitions
-NO_TRANS = 100
+# items for comparitive runs and plotting
+ALGORITHMS = ('_smacof_single', '_smacof_with_anchors_single', '_smacof_with_distance_recovery_single')
+LABELS = dict(zip(ALGORITHMS, ['Classical MDS', 'Anchored MDS', 'MDS-RFID']))
 
 # channel estimates for each anchor as seen by the tag
 ALPHA = np.array([1.6, 2.4, 1.9, 1.51, 1.6, 2.0])
@@ -17,8 +18,8 @@ X_MIN = 0
 Y_MAX = 20
 Y_MIN = 0
 
-ORIGIN = np.array([X_MIN, Y_MIN])
-ANCHORS_ = np.array([ORIGIN, 
+_ORIGIN = np.array([X_MIN, Y_MIN])
+_ANCHORS = np.array([_ORIGIN, 
 				   [X_MAX, Y_MIN], 
 				   [X_MAX, Y_MAX],
 				   [X_MIN, Y_MAX],
@@ -28,18 +29,48 @@ ANCHORS_ = np.array([ORIGIN,
 				   [X_MAX, (Y_MAX+Y_MIN)/2.0]])
 
 
-NO_OF_ANCHORS = len(ANCHORS_[:4])
-NO_OF_TAGS = 10
+class Config(object):
+	'''
+	'''
+	def __init__(self, no_of_anchors=4, no_of_tags=10, noise=1, mu=0, **kwargs):
+		self.no_of_anchors = no_of_anchors
+		if no_of_tags < 1:
+			raise ValueError('number of tags cannot be less that 1')
+		self.no_of_tags = no_of_tags
+		self.sigma = noise
+		self.mu = mu
+		for k, v in kwargs.items():
+			setattr(self, k, v)
 
-def generate_points(anc, NO_OF_TAGS):
-	#TODO: handle overlapping points
-	NO_OF_ANCHORS = anc
-	if NO_OF_TAGS < 1:
-		raise ValueError('number of tags cannot be less that 1')
-	x0_displacements = np.random.choice(np.arange(1, X_MAX-X_MIN-1), size=NO_OF_TAGS)
-	y0_displacements = np.random.choice(np.arange(1, Y_MAX-Y_MIN-1), size=NO_OF_TAGS)
-	tags =  np.array([ORIGIN + pt for pt in zip(x0_displacements, y0_displacements)])
-	return np.concatenate((ANCHORS_[:anc], tags))
+		self._points = self._anchors = self._tags = None
 
-# POINTS = generate_points(ANCHORS)
+	def generate_points(self):
+		#TODO: handle overlapping points
+		if self._points is None:			
+			self._points = np.concatenate((self.anchors, self.tags))
+		return self._points
+
+	@property
+	def points(self):
+		return self._points
+
+	@property
+	def anchors(self):
+		if self._anchors is None:
+			if self.no_of_anchors < 1:
+				self._anchors = np.array([[]])
+			else:
+				self._anchors = _ANCHORS[:self.no_of_anchors]
+		return self._anchors
+
+	@property
+	def tags(self):
+		if self._tags is None:
+			x0_displacements = np.random.choice(np.arange(1, X_MAX-X_MIN-1), size=self.no_of_tags)
+			y0_displacements = np.random.choice(np.arange(1, Y_MAX-Y_MIN-1), size=self.no_of_tags)
+			self._tags =  np.array([_ORIGIN + pt for pt in zip(x0_displacements, y0_displacements)])
+		return self._tags
+
+
+# only use default for debugging
 DEFAULT_POINTS = np.array([[0,20], [30,20], [30,0], [0,0], [18, 7], [4, 9], [10, 5], [7, 17], [15, 14], [12, 18], [22, 11]])
