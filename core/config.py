@@ -29,6 +29,7 @@ _ANCHORS = np.array([_ORIGIN,
 			[X_MAX, (Y_MAX+Y_MIN)/2.0]])
 
 
+
 class Config(object):
 	'''
 	'''
@@ -46,7 +47,7 @@ class Config(object):
 
 	def generate_points(self):
 		#TODO: handle overlapping points
-		if self._points is None:            
+		if self._points is None or self._tags is None or self._anchors is None:            
 			self._points = np.concatenate((self.anchors, self.tags))
 		return self._points
 
@@ -70,6 +71,25 @@ class Config(object):
 			y0_displacements = np.random.choice(np.arange(1, Y_MAX-Y_MIN-1), size=self.no_of_tags)
 			self._tags =  np.array([_ORIGIN + pt for pt in zip(x0_displacements, y0_displacements)])
 		return self._tags
+
+	@property
+	def no_of_tags(self):
+		return self._no_of_tags
+
+	@no_of_tags.setter
+	def no_of_tags(self, val):
+		self._tags = None
+		self._no_of_tags = val
+
+	@property
+	def no_of_anchors(self):
+		return self._no_of_anchors
+
+	@no_of_anchors.setter
+	def no_of_anchors(self, val):
+		self._anchors = None
+		self._no_of_anchors = val
+
 
 
 # only use default for debugging
