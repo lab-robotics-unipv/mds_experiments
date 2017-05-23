@@ -5,7 +5,6 @@ M = 2
 
 # items for comparitive runs and plotting
 ALGORITHMS = ('_smacof_single', '_smacof_with_anchors_single', '_smacof_with_distance_recovery_single')
-LABELS = dict(zip(ALGORITHMS, ['Classical MDS', 'Anchored MDS', 'MDS-RFID']))
 
 # channel estimates for each anchor as seen by the tag
 ALPHA = np.array([1.6, 2.4, 1.9, 1.51, 1.6, 2.0])
