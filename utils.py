@@ -147,56 +147,7 @@ def best_similarity_transform(X, Y):
 
 if __name__ == '__main__':
 	pass
-	# noise = {'mu': 0}
-	# plot_hanldes = []
-	# plot_labels = []
-	# for algorithm in ALGORITHMS:
-	# 	errors = []
-	# 	sigmas = np.linspace(0, 4, 40)
-	# 	for sigma in sigmas:
-	# 		noise['sigma'] = sigma
 
-	# 		for_evaluation = generate_data(config, algorithm, filter_noise=False, add_noise=noise)
-
-	# 		# generate rmse from coordinates, remembering to not pass last_n_coords to function
-	# 		error = [evaluation.rmse(*coords[:2]) for coords in islice(for_evaluation, None, 500)]
-	# 		errors.append(error)
-	# 	errors = np.array(errors)
-	# 	first_q, median, third_q = evaluation.first_third_quartile_and_median(errors)
-	# 	#np.save()
-	# 	handles = evaluation.plot_rmse_vs_sigma(first_q, median, third_q, x_axis=sigmas, algorithm=algorithm)
-	# 	plot_hanldes.extend(handles)
-	# 	plot_labels.extend([LABELS[algorithm], 'IQR boundaries'])
-	# plt.legend(loc='upper left', fontsize=12, labels=plot_labels, handles=plot_hanldes)
-	# plt.show()
-
-
-
-
-	# noise = {'mu': 0, 'sigma': 3}
-	# plot_hanldes = []
-	# plot_labels = []
-	# no_of_anchors = range(3,9)
-	# for algorithm in ALGORITHMS:
-	# 	errors = []
-		
-	# 	for anc in no_of_anchors:
-
-	# 		config.NO_OF_ANCHORS = anc
-	# 		config.ANCHORS = config.ANCHORS_[:anc]
-	# 		for_evaluation = generate_data(config, anc, algorithm, filter_noise=False, add_noise=noise)
-
-	# 		# generate rmse from coordinates, remembering to not pass last_n_coords to function
-	# 		error = [evaluation.rmse(*coords[:2]) for coords in islice(for_evaluation, None, 100)]
-	# 		errors.append(error)
-	# 	errors = np.array(errors)
-	# 	first_q, median, third_q = evaluation.first_third_quartile_and_median(errors)
-	# 	#np.save()
-	# 	handles = evaluation.plot_rmse_vs_anchors(first_q, median, third_q, x_axis=no_of_anchors, algorithm=algorithm)
-	# 	plot_hanldes.extend(handles)
-	# 	plot_labels.extend([LABELS[algorithm], 'IQR boundaries'])
-	# plt.legend(loc='upper right', fontsize=12, labels=plot_labels, handles=plot_hanldes)
-	# plt.show()
 
 
 
