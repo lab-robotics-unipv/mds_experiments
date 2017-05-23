@@ -5,6 +5,20 @@ variant:
 -- anchored  ->  _smacof_with_anchors_single
 -- MDS-RFID  ->  _smacof_with_distance_recovery_single
 '''
+from __future__ import division
+
+import operator
+
+import numpy as np
+
+import warnings
+
+from sklearn.base import BaseEstimator
+from sklearn.metrics import euclidean_distances
+from sklearn.utils import check_random_state, check_array, check_symmetric
+from sklearn.externals.joblib import Parallel
+from sklearn.externals.joblib import delayed
+from sklearn.isotonic import IsotonicRegression
 
 # modifications were made to the original code from sklearn.manifold.MDS
 '''
@@ -40,20 +54,6 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGE.
 '''
-
-from __future__ import division
-import operator
-
-import numpy as np
-
-import warnings
-
-from sklearn.base import BaseEstimator
-from sklearn.metrics import euclidean_distances
-from sklearn.utils import check_random_state, check_array, check_symmetric
-from sklearn.externals.joblib import Parallel
-from sklearn.externals.joblib import delayed
-from sklearn.isotonic import IsotonicRegression
 
 
 def _smacof_with_anchors_single(config, similarities, metric=True, n_components=2, init=None,

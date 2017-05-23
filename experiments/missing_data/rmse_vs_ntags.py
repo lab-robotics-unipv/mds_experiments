@@ -1,28 +1,38 @@
+from functools import partial
+
+import numpy as np
+from matplotlib import pyplot as plt
+
+from core.config import Config
+from utils import generate_static_nodes
+from experiments import evaluation
 
 
-if __name__ == '__main__':
-	ALGORITHMS = ['MDS-A, no missing data', 'modified MDS-A, missing inter-tag data']
-	noise = {'mu': 0, 'sigma': 3}
+ALGORITHMS = ['MDS-A, no missing data', 'modified MDS-A, missing inter-tag data'] 
+
+
+def runexperiment(no_of_trials=10):
 	plot_hanldes = []
 	plot_labels = []
+	config = Config(no_of_anchors=4, noise=2)
+	generate_data = partial(generate_static_nodes, algorithm='_smacof_with_anchors_single')
 	for i in range(2):
 		if i == 0:
-			config.MISSINGDATA = None
+			# use full distance matrix
+			config.missingdata = False
 		else:
-			config.MISSINGDATA = 'yes'
-		print(config.MISSINGDATA)
+			# use distance matrix with tag-to-tag distances removed
+			config.missingdata = True
+
 		errors = []
 		no_of_tags = range(1, 30)
 		for nt in no_of_tags:
-			config.NO_OF_TAGS = nt
-			for_evaluation = generate_data(config, 4, '_smacof_with_anchors_single', filter_noise=False, add_noise=noise)
-
+			config.no_of_tags = nt
 			# generate rmse from coordinates, remembering to not pass last_n_coords to function
-			error = [evaluation.rmse(*coords[:2]) for coords in islice(for_evaluation, None, 100)]
+			error = [evaluation.rmse(*generate_data(config=config, add_noise=True)[:2]) for i in range(no_of_trials)]
 			errors.append(error)
 		errors = np.array(errors)
 		first_q, median, third_q = evaluation.first_third_quartile_and_median(errors)
-		#np.save()
 		handles = evaluation.plot_rmse_vs_tags(first_q, median, third_q, x_axis=no_of_tags, algorithm=ALGORITHMS[i])
 		plot_hanldes.extend(handles)
 		plot_labels.extend([ALGORITHMS[i], 'IQR boundaries'])
