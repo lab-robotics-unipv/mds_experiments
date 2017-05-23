@@ -52,7 +52,7 @@ class Config(object):
 
 	@property
 	def points(self):
-		return self._points
+		return self.generate_points()
 
 	@property
 	def anchors(self):
