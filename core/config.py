@@ -20,13 +20,13 @@ Y_MIN = 0
 
 _ORIGIN = np.array([X_MIN, Y_MIN])
 _ANCHORS = np.array([_ORIGIN, 
-					[X_MAX, Y_MIN], 
-					[X_MAX, Y_MAX],
-					[X_MIN, Y_MAX],
-					[(X_MAX+X_MIN)/2.0, Y_MAX],
-					[(X_MAX+X_MIN)/2.0, Y_MIN],
-					[X_MIN, (Y_MAX+Y_MIN)/2.0],
-					[X_MAX, (Y_MAX+Y_MIN)/2.0]])
+			[X_MAX, Y_MIN], 
+			[X_MAX, Y_MAX],
+			[X_MIN, Y_MAX],
+			[(X_MAX+X_MIN)/2.0, Y_MAX],
+			[(X_MAX+X_MIN)/2.0, Y_MIN],
+			[X_MIN, (Y_MAX+Y_MIN)/2.0],
+			[X_MAX, (Y_MAX+Y_MIN)/2.0]])
 
 
 class Config(object):
