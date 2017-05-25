@@ -59,8 +59,7 @@ class NodeAnimation(object):
 
 
 if __name__ == '__main__':
-	cfg = Config(no_of_anchors=4, no_of_tags=7, missingdata=True)
-	noise = dict(mu=0, sigma=1)
-	data = generate_dynamic_nodes(cfg, algorithm='_smacof_with_distance_recovery_single', no_of_trans=NO_TRANS, add_noise=noise, filter_noise=False)
+	cfg = Config(no_of_anchors=4, no_of_tags=7, missingdata=True, sigma=0)
+	data = generate_dynamic_nodes(cfg, algorithm='_smacof_with_anchors_single', no_of_trans=NO_TRANS, add_noise=True, filter_noise=False)
 	anim = NodeAnimation(cfg, data, show_trail=False)
 	anim.draw_plot()
