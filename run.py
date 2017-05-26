@@ -1,6 +1,5 @@
-import experiments
-from experiments.missing_data import rmse_vs_noise, rmse_vs_ntags
+from experiments import missing_data, comparisons
 
 
 if __name__ == '__main__':
-	rmse_vs_noise()
+	comparisons.rmse_vs_anchors()
