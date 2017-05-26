@@ -1,14 +1,9 @@
 from __future__ import print_function
-import operator
 import datetime
 
-from itertools import count, cycle, tee, islice
+from itertools import cycle
 import numpy as np
 from sklearn.metrics import euclidean_distances
-from sklearn import manifold
-from sklearn.decomposition import PCA
-from matplotlib import pyplot as plt
-from matplotlib import animation
 
 from core import mds, motion
 
@@ -140,32 +135,3 @@ def best_similarity_transform(X, Y):
 	t = Ym - np.dot(R, Xm) 
 	s = S.sum() * normX / normY
 	return R, t, s
-
-
-
-
-
-if __name__ == '__main__':
-	pass
-
-
-
-
-
-	# noise = {'mu': 0, 'sigma': 3}
-	# plot_hanldes = []
-	# plot_labels = []
-	# no_of_anchors = range(3,9)
-	# for algorithm in ALGORITHMS:
-	# 	n_iters = []
-		
-	# 	for anc in no_of_anchors:
-
-	# 		config.NO_OF_ANCHORS = anc
-	# 		config.ANCHORS = config.ANCHORS_[:anc]
-	# 		for_evaluation = generate_data(config, anc, algorithm, filter_noise=False, add_noise=noise)
-
-	# 		n_iter = np.array(list(islice(for_evaluation, None, 100))).mean()
-	# 		n_iters.append(n_iter)
-	# 	n_iters = np.array(n_iters)
-	# 	np.savetxt('{}.txt'.format(algorithm), n_iters)
