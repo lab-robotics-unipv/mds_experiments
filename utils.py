@@ -14,36 +14,10 @@ def generate_static_nodes(config, algorithm, add_noise=None, filter_noise=False,
 	if filter_noise and not add_noise:
 		raise ValueError("can't filter when there is no noise")
 	coords_init = config.generate_points()
-	
-	tag_prev_pos = tag_curr_pos = prev_time = None
-	time_duration = 0
-
 	curr_coords = coords_init.copy()
-	
-	#move first tag
-	curr_coords[-2, 0] -= step
-	curr_coords[-2, 1] += step
-	#move second tag
-	curr_coords[-1, 0] += 0.7*step 
-
-	#move third tag
-	#curr_coords[-1, 0] -= 0.4*step 
-	#curr_coords[-1, 1] -= step 
-
-	# set up dissimilarity matrix containing RSSI
-
-	#prox_arr = computeRSSI(curr_coords)
-	#prox_arr = 10 ** ((-35 - prox_arr)/(10*np.mean(ALPHA)))
-	#print(prox_arr)
-	#prox_arr -= prox_arr.mean()
 	prox_arr = euclidean_distances(curr_coords)
 	if getattr(config, 'missingdata', None):
 		prox_arr[-NO_OF_TAGS:, -NO_OF_TAGS:] = 0
-
-	#
-	# scale range values 
-	# prox_arr *= 1.1
-	#prox_arr[prox_arr==np.inf] = 0
 
 	
 	if add_noise:
@@ -81,15 +55,6 @@ def generate_static_nodes(config, algorithm, add_noise=None, filter_noise=False,
 			last_n_coords[i] = (Rotation.dot((last_n_coords[i]/s).T) + t).T
 		configs += (last_n_coords,)
 
-
-	if prev_time:
-		time_duration = (datetime.datetime.now() - prev_time).total_seconds()
-	tag_curr_pos = coords[-1]
-	if tag_prev_pos is not None and tag_curr_pos is not None and time_duration:
-		pass #print(motion.compute_velocity(tag_prev_pos, tag_curr_pos, time_duration))
-	tag_prev_pos = tag_curr_pos
-	prev_time = datetime.datetime.now()
-
 	return configs
 
 
@@ -125,7 +90,6 @@ def best_similarity_transform(X, Y):
 	Y = Y - Ym
 	normX = np.linalg.norm(X)
 	normY = np.linalg.norm(Y)
-
 	X /= normX
 	Y /= normY
 
