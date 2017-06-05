@@ -9,7 +9,7 @@ Python script(s) for various MDS algorithms and experiments
 ### Experiments
 Run any of the experiments with:
 
-`python run.py --exp_no EXP_NO --nruns NRUNS`
+    python run.py --exp_no EXP_NO --nruns NRUNS
 
 `NRUNS` is the number of times an experiment should be repeated each initialized with random configuration `X`. A good choice is 100, as a higher number allows to have a smooth progression of the plot lines.
 
