@@ -11,7 +11,7 @@ Run any of the experiments with:
 
     python run.py --exp_no EXP_NO --nruns NRUNS
 
-`NRUNS` is the number of times an experiment should be repeated each initialized with random configuration `X`. A good choice is 100, as a higher number allows to have a smooth progression of the plot lines.
+`NRUNS` is the number of times an experiment should be repeated each initialized with a random configuration `X`. Pass `NRUNS >= 100` to have a sufficient amount of trials.
 
 `EXP_NO` values are described below.
 
