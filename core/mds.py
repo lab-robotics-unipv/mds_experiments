@@ -62,6 +62,8 @@ def _smacof_with_anchors_single(config, similarities, metric=True, n_components=
 	Computes multidimensional scaling using SMACOF algorithm
 	Parameters
 	----------
+	config : Config object
+		configuration object for anchor-tag deployment parameters
 	similarities: symmetric ndarray, shape [n * n]
 		similarities between the points
 	metric: boolean, optional, default: True
@@ -90,7 +92,9 @@ def _smacof_with_anchors_single(config, similarities, metric=True, n_components=
 		The final value of the stress (sum of squared distance of the
 		disparities and the distances for all constrained points)
 	n_iter : int
-		Number of iterations run.
+		Number of iterations run
+	last_positions: ndarray [X1,...,Xn]
+		An array of computed Xs.
 	"""
 	NO_OF_TAGS, NO_OF_ANCHORS = config.no_of_tags, config.no_of_anchors
 	similarities = check_symmetric(similarities, raise_exception=True)
@@ -196,6 +200,8 @@ def _smacof_single(config, similarities, metric=True, n_components=2, init=None,
 	Computes multidimensional scaling using SMACOF algorithm
 	Parameters
 	----------
+	config : Config object
+		configuration object for anchor-tag deployment parameters
 	similarities: symmetric ndarray, shape [n * n]
 		similarities between the points
 	metric: boolean, optional, default: True
@@ -224,7 +230,9 @@ def _smacof_single(config, similarities, metric=True, n_components=2, init=None,
 		The final value of the stress (sum of squared distance of the
 		disparities and the distances for all constrained points)
 	n_iter : int
-		Number of iterations run.
+		Number of iterations run
+	last_positions: ndarray [X1,...,Xn]
+		An array of computed Xs.
 	"""
 	NO_OF_TAGS, NO_OF_ANCHORS = config.no_of_tags, config.no_of_anchors
 	similarities = check_symmetric(similarities, raise_exception=True)
@@ -372,6 +380,10 @@ def smacof(config, variant, similarities, metric=True, n_components=2, init=None
 	the stress.
 	Parameters
 	----------
+	config : Config object
+		configuration object for anchor-tag deployment parameters
+	variant :  str
+		variant of MDS algorithm to be used for computing configuration
 	similarities : symmetric ndarray, shape (n_samples, n_samples)
 		similarities between the points
 	metric : boolean, optional, default: True
@@ -415,7 +427,11 @@ def smacof(config, variant, similarities, metric=True, n_components=2, init=None
 		disparities and the distances for all constrained points)
 	n_iter : int
 		The number of iterations corresponding to the best stress.
-		Returned only if `return_n_iter` is set to True.
+		Returned only if `return_n_iter` is set to True
+	last_positions: ndarray [X1,...,Xn]
+		An array of computed Xs from the selected mds/smacof variant, 
+		used displaying trails showing convergence in animation.
+
 	Notes
 	-----
 	"Modern Multidimensional Scaling - Theory and Applications" Borg, I.;
@@ -478,6 +494,10 @@ class MDS(BaseEstimator):
 	Read more in the :ref:`User Guide <multidimensional_scaling>`.
 	Parameters
 	----------
+	config : Config object
+		configuration object for anchor-tag deployment parameters
+	algorithm :  str
+		MDS algorithm to be used for computing configuration
 	metric : boolean, optional, default: True
 		compute metric or nonmetric SMACOF (Scaling by Majorizing a
 		Complicated Function) algorithm
