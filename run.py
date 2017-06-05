@@ -6,8 +6,8 @@ from experiments import missing_data, comparisons
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--exp_no', type=int, required=True)
-	parser.add_argument('--nruns', type=int, required=True)
+	parser.add_argument('--exp_no', type=int, required=True, help='specify experiment number: 1-4')
+	parser.add_argument('--nruns', type=int, required=True, help='number of runs for experiment')
 	args = parser.parse_args()
 	exp_no, nruns = args.exp_no, args.nruns
 
