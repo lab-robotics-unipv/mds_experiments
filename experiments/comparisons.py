@@ -1,4 +1,4 @@
-from functools import partial
+from functools import partial, wraps
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -11,6 +11,7 @@ from experiments import evaluation
 LABELS = dict(zip(ALGORITHMS, ['Classical MDS', 'Anchored MDS', 'MDS-RFID']))
 
 def runexperiment(func):
+	@wraps(func)
 	def wrapper(**kwargs):
 		plot_hanldes = []
 		plot_labels = []

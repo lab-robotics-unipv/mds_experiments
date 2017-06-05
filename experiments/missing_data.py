@@ -1,4 +1,4 @@
-from functools import partial
+from functools import partial, wraps
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -12,6 +12,7 @@ ALGORITHMS = ['MDS-A, no missing data', 'modified MDS-A, missing inter-tag data'
 
 
 def runexperiment(func):
+	@wraps(func)
 	def wrapper(**kwargs):
 		plot_hanldes = []
 		plot_labels = []
