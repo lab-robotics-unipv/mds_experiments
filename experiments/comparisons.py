@@ -15,11 +15,8 @@ def runexperiment(func):
 	def wrapper(**kwargs):
 		plot_hanldes = []
 		plot_labels = []
-		config = Config(no_of_anchors=4, no_of_tags=30, noise=2, missingdata=True)
 		for algorithm in ALGORITHMS:
-			generate_data = partial(generate_static_nodes, add_noise=True, algorithm=algorithm)
-			kwargs['config'] =  config
-			kwargs['data_func'] = generate_data
+			kwargs['algorithm'] = algorithm
 			x_axis, errors = func(**kwargs)
 			errors = np.array(errors)
 			first_q, median, third_q = evaluation.first_third_quartile_and_median(errors)
@@ -31,23 +28,23 @@ def runexperiment(func):
 	return wrapper
 
 @runexperiment
-def rmse_vs_noise(config=None, data_func=None, no_of_trials=10):
+def rmse_vs_noise(algorithm=None, config=None, no_of_trials=10):
 	errors = []
 	sigmas = np.linspace(0, 4, 4)
 	for sigma in sigmas:
 		config.sigma = sigma
 		# generate rmse from coordinates, remembering to not pass last_n_coords to function
-		error = [evaluation.rmse(*data_func(config=config)[:2]) for i in range(no_of_trials)]
+		error = [evaluation.rmse(*generate_static_nodes(config, algorithm)[:2]) for i in range(no_of_trials)]
 		errors.append(error)
 	return sigmas, errors
 
 @runexperiment
-def rmse_vs_anchors(config=None, data_func=None, no_of_trials=10):
+def rmse_vs_anchors(algorithm=None, config=None, no_of_trials=10):
 	errors = []
 	anchors = range(3, 9)
 	for anc in anchors:
 		config.no_of_anchors = anc
 		# generate rmse from coordinates, remembering to not pass last_n_coords to function
-		error = [evaluation.rmse(*data_func(config=config)[:2]) for i in range(no_of_trials)]
+		error = [evaluation.rmse(*generate_static_nodes(config, algorithm)[:2]) for i in range(no_of_trials)]
 		errors.append(error)
 	return anchors, errors
