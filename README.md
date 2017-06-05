@@ -1,6 +1,11 @@
 # Experiments and samples in Multidimensional Scaling
 Python script(s) for various MDS algorithms and experiments
 
+### Installation
+    git clone https://github.com/mkoledoye/mds_experiments/
+    cd mds_experiments
+    pip install -r requirements.txt
+
 ### Experiments
 Run any of the experiments with:
 
