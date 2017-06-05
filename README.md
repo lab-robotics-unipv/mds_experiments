@@ -17,10 +17,10 @@ Run any of the experiments with:
 
 The experiments are dividing into two groups:
 
-  - Comparisons
-        -- compares the performance of MDS variants changing the amount of noise (`EXP_NO=1`) or number of anchors (`EXP_NO=2`).
-  - Missing Data
-        -- check the effects of missing data in the distance matrix varying the amount of noise (`EXP_NO=3`) or the number of tags (`EXP_NO=4`).
+  - Comparisons:
+    compares the performance of MDS variants changing the amount of noise (`EXP_NO=1`) or number of anchors (`EXP_NO=2`).
+  - Missing Data:
+    check the effects of missing data in the distance matrix varying the amount of noise (`EXP_NO=3`) or the number of tags (`EXP_NO=4`).
 
 ### Animation
 
