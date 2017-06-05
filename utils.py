@@ -19,22 +19,21 @@ def generate_static_nodes(config, algorithm, add_noise=None, filter_noise=False,
 	if getattr(config, 'missingdata', None):
 		prox_arr[-NO_OF_TAGS:, -NO_OF_TAGS:] = 0
 
-	
-	if add_noise:
-		# add noise to between-sets proximities
-		mu = config.mu
-		sigma = config.sigma
-		if sigma !=0:
-			noise = np.random.normal(mu, sigma, size=(NO_OF_ANCHORS, NO_OF_TAGS)) 
-			prox_arr[:NO_OF_ANCHORS, -NO_OF_TAGS:] += noise
-			prox_arr[-NO_OF_TAGS:, :NO_OF_ANCHORS] += noise.T
 
-			if getattr(config, 'missingdata') is None: 
-				# add noise to within-sets data when available
-				noise = np.random.normal(mu, sigma, size=(NO_OF_TAGS, NO_OF_TAGS))
-				prox_arr[-NO_OF_TAGS:, -NO_OF_TAGS:] += (noise+noise.T)/2.0
-				# self distance should remain zero
-				prox_arr[np.arange(len(prox_arr)), np.arange(len(prox_arr))] = 0
+	# add noise to between-sets proximities
+	mu = config.mu
+	sigma = config.sigma
+	if sigma > 0:
+		noise = np.random.normal(mu, sigma, size=(NO_OF_ANCHORS, NO_OF_TAGS)) 
+		prox_arr[:NO_OF_ANCHORS, -NO_OF_TAGS:] += noise
+		prox_arr[-NO_OF_TAGS:, :NO_OF_ANCHORS] += noise.T
+
+		if getattr(config, 'missingdata') is None: 
+			# add noise to within-sets data when available
+			noise = np.random.normal(mu, sigma, size=(NO_OF_TAGS, NO_OF_TAGS))
+			prox_arr[-NO_OF_TAGS:, -NO_OF_TAGS:] += (noise+noise.T)/2.0
+			# self distance should remain zero
+			prox_arr[np.arange(len(prox_arr)), np.arange(len(prox_arr))] = 0
 
 	#TODO: attenuation or multipath would mean a longer range as seen from the mobile node
 
@@ -60,7 +59,7 @@ def generate_static_nodes(config, algorithm, add_noise=None, filter_noise=False,
 
 def generate_dynamic_nodes(config, algorithm, add_noise, filter_noise, no_of_trans):
 	# change coordinate of mobile nodes using transition step value
-	for i in cycle([0]):
+	for i in cycle([0, 1, 2, 3]):
 		step = (i%no_of_trans)/float(30)
 		yield generate_static_nodes(config, algorithm, add_noise=add_noise, filter_noise=filter_noise, step=step)
 
