@@ -28,5 +28,5 @@ A sample animation of the computed configuration using any of the MDS variants c
 
 `python animation.py`
 
-<sub>NOTE: This requires Python 3</sub>
+<sub>NOTE: The animation requires Python 3</sub>
 
