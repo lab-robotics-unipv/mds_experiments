@@ -30,8 +30,8 @@ _ANCHORS = np.array([_ORIGIN,
 
 
 class Config(object):
-	'''
-	'''
+	'''parameter configuration for tag-anchor deployment'''
+	
 	def __init__(self, no_of_anchors=4, no_of_tags=10, noise=1, mu=0, **kwargs):
 		self.no_of_anchors = no_of_anchors
 		if no_of_tags < 1:
