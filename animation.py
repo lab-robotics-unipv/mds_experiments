@@ -8,6 +8,7 @@ from utils import generate_dynamic_nodes
 NO_TRANS = 100
 
 class NodeAnimation(object):
+	'''create animation of tag-anchor deployment from a given configuration of parameters'''
 
 	def __init__(self, cfg, data, show_trail=False):
 		self.fig = plt.figure()
