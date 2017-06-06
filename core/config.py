@@ -11,7 +11,7 @@ ALPHA = np.array([1.6, 2.4, 1.9, 1.51, 1.6, 2.0])
 ALPHA = np.array([2.0, 2.0, 2.0, 2.0, 2.0, 2.0])
 
 # define bounding box for node deployment
-'''Larger values reduce the chances that nodes will overlap'''
+# larger values reduce the chances that nodes will overlap
 X_MAX = 30
 X_MIN = 0
 Y_MAX = 20
