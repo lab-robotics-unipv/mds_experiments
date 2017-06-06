@@ -30,7 +30,7 @@ def runexperiment(func):
 @runexperiment
 def rmse_vs_noise(algorithm=None, config=None, no_of_trials=10):
 	errors = []
-	sigmas = np.linspace(0, 4, 4)
+	sigmas = np.linspace(0, 4, 40)
 	for sigma in sigmas:
 		config.sigma = sigma
 		# generate rmse from coordinates, remembering to not pass last_n_coords to function
