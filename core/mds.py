@@ -24,9 +24,8 @@ from sklearn.isotonic import IsotonicRegression
 '''
 New BSD License
 
-Copyright (c) 2007–2016 The scikit-learn developers.
+Copyright (c) 2007-2016 The scikit-learn developers.
 All rights reserved.
-
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
