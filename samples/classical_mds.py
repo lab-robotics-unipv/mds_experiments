@@ -3,6 +3,9 @@ import operator
 
 import numpy as np
 from sklearn.metrics import euclidean_distances
+from sklearn import manifold
+import matplotlib.pyplot as plt
+
 
 #==========================================================================================================
 # classical multidimensional scaling as described in https://en.wikipedia.org/wiki/Multidimensional_scaling
@@ -37,11 +40,21 @@ eig_vals, eig_vecs = map(np.array, eig_vals_vecs)
 
 # Configuration X of n points/coordinates that optimise the cost function
 coords = eig_vecs.T.dot((np.eye(M)*eig_vals)**0.5)
-print(coords)
 
 # Compute euclidean distances
 similairities = euclidean_distances(coords)
 print(similairities)
+
+# compute config using SMACOF
+mds = manifold.MDS(metric=True, dissimilarity="precomputed")
+coords2 = mds.fit(prox_arr).embedding_
+similairities2 = euclidean_distances(coords2)
+print(similairities2)
+
+# plot configurations, both should have slightly different orientations
+plt.scatter(coords[:, 0], coords[:, 1], c='b')
+plt.scatter(coords2[:, 0], coords2[:, 1], c='g')
+plt.show()
 
 # Compare the new proximity matrix with the original
 np.testing.assert_allclose(similairities, prox_arr, 0.0001)
