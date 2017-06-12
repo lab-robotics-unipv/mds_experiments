@@ -23,6 +23,8 @@ M = 2
 #    |  /
 #    |/
 
+# Classical MDS using eigen value decomposition
+# --------------------------------------------------------------
 
 # Set up the proximity and squared proximity matrices
 prox_arr = np.array([[0, 5, 3], [5, 0, 4], [3, 4, 0]])
@@ -45,13 +47,21 @@ coords = eig_vecs.T.dot((np.eye(M)*eig_vals)**0.5)
 similairities = euclidean_distances(coords)
 print(similairities)
 
-# compute config using SMACOF
+
+# Classical MDS using SMACOF
+# --------------------------------------------------------------
+
 mds = manifold.MDS(metric=True, dissimilarity="precomputed")
 coords2 = mds.fit(prox_arr).embedding_
+
+# Compute euclidean distances
 similairities2 = euclidean_distances(coords2)
 print(similairities2)
 
-# plot configurations, both should have slightly different orientations
+
+# --------------------------------------------------------------
+
+# Plot configurations, both should have slightly different orientations
 plt.scatter(coords[:, 0], coords[:, 1], c='b')
 plt.scatter(coords2[:, 0], coords2[:, 1], c='g')
 plt.show()
