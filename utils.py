@@ -13,12 +13,10 @@ def generate_static_nodes(config, algorithm, add_noise=None, filter_noise=False,
 	NO_OF_TAGS, NO_OF_ANCHORS = config.no_of_tags, config.no_of_anchors
 	if filter_noise and not add_noise:
 		raise ValueError("can't filter when there is no noise")
-	coords_init = config.generate_points()
-	curr_coords = coords_init.copy()
+	curr_coords = config.generate_points()
 	prox_arr = euclidean_distances(curr_coords)
 	if getattr(config, 'missingdata', None):
 		prox_arr[-NO_OF_TAGS:, -NO_OF_TAGS:] = 0
-
 
 	# add noise to between-sets proximities
 	mu = config.mu
@@ -36,7 +34,6 @@ def generate_static_nodes(config, algorithm, add_noise=None, filter_noise=False,
 			prox_arr[np.arange(len(prox_arr)), np.arange(len(prox_arr))] = 0
 
 	#TODO: attenuation or multipath would mean a longer range as seen from the mobile node
-
 	slc = slice(None)
 	if filter_noise:
 		# drop/filter first component in computation of configuration 
