@@ -30,3 +30,13 @@ A sample animation of the computed configuration using any of the MDS variants c
 
 <sub>NOTE: The animation requires Python 3</sub>
 
+
+### Relevant publications
+
+1. M. A. Koledoye, T. Facchinetti and L. Almeida, "MDS-based localization with known anchor locations and missing tag-to-tag distances," <i>2017 22nd IEEE International Conference on Emerging Technologies and Factory Automation (ETFA)</i>, Limassol, 2017, pp. 1-4.
+  [doi: 10.1109/ETFA.2017.8247768][1]
+2. C. Di Franco, E. Bini, M. Marinoni and G. C. Buttazzo, "Multidimensional scaling localization with anchors," <i>2017 IEEE International Conference on Autonomous Robot Systems and Competitions (ICARSC)</i>, Coimbra, 2017, pp. 49-54.
+  [doi: 10.1109/ICARSC.2017.7964051][2]
+
+[1]: http://ieeexplore.ieee.org/document/8247768/
+[2]: http://ieeexplore.ieee.org/document/7964051/
