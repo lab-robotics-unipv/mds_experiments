@@ -1,4 +1,4 @@
-# Experiments and samples in Multidimensional Scaling
+# Experiments and samples in Multidimensional Scaling based localization
 Python script(s) for various MDS algorithms and experiments
 
 ### Installation
